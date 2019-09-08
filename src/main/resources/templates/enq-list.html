@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Enquiry List</title>
+        <meta charset="UTF-8">              
+        <link th:href="@{/main.css}" type="text/css" rel="stylesheet" />
+        <script th:src="@{/jquery-3.4.1.min.js}"></script>        
+        <script>
+            var courses;
+            $(document).ready(function () {
+                $("#id_instId").change(function () {
+                    var instId = $("#id_instId").val();
+                    //console.log(instId);
+                    window.location = 'enq-list?instId='+instId;
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div th:insert="menu"></div>
+
+        <div class="main">
+
+            <div th:insert="header"></div>
+            <div style="text-align: center; padding-bottom: 20px;">
+                <select id="id_instId">
+                    <option value=""></option>
+                    <option th:each="i : ${instituteList}" th:value="${i.instituteId}" th:text="${i.name}">
+                    </option>
+                </select>
+            </div>
+            <table  border="1" width="90%" align="center" cellpadding="5">
+                <tr>
+                    <td class="fheading" colspan="8" >Enquiry List</td>
+                </tr>
+                <tr>
+                    <th>SR</th>
+                    <th>DOE</th>
+                    <th>NAME</th>
+                    <th>PHONE</th>
+                    <th>COURSES</th>                
+                    <th>FEES</th>                                
+                    <th>F/U</th>                                
+                    <th>ACTION</th>                                
+                </tr>    
+                <tr th:each="dto,itr : ${enquiryList}">
+                    <td th:text="${itr.count}">SR</td>
+                    <td th:text="${#dates.format(dto.doe, 'dd-MMM-yyyy')}">DOE</td>
+                    <td th:text="${dto.name}">NAME</td>
+                    <td th:text="${dto.phone}">PHONE</td>
+                    <td th:text="${dto.courses}">COURSES</td>                
+                    <td th:text="${dto.fees}">FEES</td>                                
+                    <td th:text="${dto.followUpCount}">F/U</td>                                
+                    <td>Edit | Delete</td>                                
+                </tr>    
+
+            </table>
+        </div>
+    </body>
+</html>

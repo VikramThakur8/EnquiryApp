@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Enquiry Form</title>
+        <meta charset="UTF-8">        
+        <link th:href="@{/main.css}" type="text/css" rel="stylesheet" />
+        <script th:src="@{/jquery-3.4.1.min.js}"></script>        
+        <script>
+            var courses;
+            $(document).ready(function () {
+                $("#id_instId").change(function () {                    
+                    //id_courses
+                    $.ajax({
+                        url: 'get-courses',
+                        data: {instId: $("#id_instId").val()},
+                        success: function (coursesList) {
+
+                            courses = coursesList;
+                            $.each(courses, function (i, c) {
+                                var fid = 'id_course_' + c.courseId;
+                                $("#id_courses").append(' <input  id="' + fid + '" onclick="doCalculateFees(\'' + fid + '\')" type="checkbox" value="' + c.courseId + '" name="courses">' + c.name);
+                            });
+
+                            $("#id_courses").append('<a style="padding-left:20px" class="txt_small" href="courses">Add New</a>');
+                        }
+                    });
+                });
+            });
+
+
+
+
+
+            function doCalculateFees(cb) {
+                var cbObj = $('#' + cb);
+                if ($(cbObj).is(":checked")) {
+                    var fees = $('#id_fees').val();
+                    if (fees === '') {
+                        fees = 0.0;
+                    }
+                    var f = getFeesOfCourse(cb.split("_")[2]);
+                    fees = parseFloat(fees) + parseFloat(f);
+                    $('#id_fees').val(fees);
+                }
+            }
+
+            function getFeesOfCourse(courseId) {
+                for (var i in courses) {
+                    if (courses[i].courseId == courseId) {
+                        return courses[i].fees;
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div th:insert="menu"></div>
+        <div class="main">
+            <div th:insert="header"></div>
+            <form th:action="@{/save-enquiry}" th:object="${cmd}">
+                <table border="1" width="90%" align="center" cellpadding="5">
+                    <tr>
+                        <td class="fheading" colspan="4">Enquiry Form</td>
+                    </tr>
+                    <tr>
+                        <td>Institute</td>
+                        <td colspan="3" valign="center">
+
+
+                            <select id="id_instId" th:field="*{enquiry.institute.instituteId}" >
+                                <option value=""></option>
+                                <option th:each="i : ${instituteList}" th:value="${i.instituteId}" th:text="${i.name}">
+                                </option>
+                            </select>
+
+
+                            <a class="txt_small" th:href="@{/institute-form}">
+                                Add New
+                            </a>
+
+                        </td>                  
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input type="text" th:field="*{enquiry.contact.name}" />
+                        </td>
+                        <td>Phone</td>
+                        <td><input type="text"th:field="*{enquiry.contact.phone}" /></td>
+                    </tr>
+
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="text" th:field="*{enquiry.contact.email}" /></td>
+                        <td>Address</td>
+                        <td>
+                            <textarea placeholder="permanent address" title="(permanent address)" cols="40" rows="3" th:field="*{enquiry.contact.permanentAddress.detail}" ></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Courses</td>
+                        <td colspan="3" id="id_courses">
+
+                        </td>                         
+                    </tr>
+                    <tr>
+                        <td>Fees Commitment</td>
+                        <td>
+                            <input type="text" th:field="*{enquiry.committedFees}"  id="id_fees"/>
+                        </td>   
+                        <td>Source</td>
+                        <td>
+                            <select th:field="*{enquiry.enquirySource.enquirySourceId}">
+                                <option th:each="s : ${sourceList}" th:value="${s.enquirySourceId}" th:text="${s.name}">
+                                </option>
+                            </select>
+                            <a class="txt_small" th:href="@{/sources}">
+                                Add New
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Remark</td>
+                        <td colspan="3" >
+                            <textarea placeholder="additional detail" title="additional info - if any" cols="60" rows="3" th:field="*{enquiry.remark}" id="id_remark"></textarea>
+                        </td>                                        
+                    </tr>
+                    <tr>                    
+                        <td colspan="4" align="center">
+                            <button id="id_btn_save">Save</button>
+                        </td>                                        
+                    </tr>
+
+                </table>
+            </form>
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Institute List</title>
+        <meta charset="UTF-8">        
+        <link th:href="@{/main.css}" type="text/css" rel="stylesheet" />
+        <script th:src="@{/jquery-3.4.1.min.js}"></script>               
+    </head>
+    <body>
+
+        <div th:insert="menu"></div>
+
+        <div class="main">
+            <div th:insert="header"></div>
+
+            <table  border="1" width="90%" align="center" cellpadding="5">
+            <tr>
+                <td style="font-size: 20px; font-weight: bold" colspan="7">Institute List</td>
+            </tr>
+            <tr>
+                <th>SR</th>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>PHONE</th>
+                <th>EMAIL</th>                
+                <th>CITY</th>                                
+                <th>ACTION</th>                                
+            </tr>    
+            <tr th:each="inst,itr : ${instList}">
+                <td th:text="${itr.count}">SR</td>
+                <td th:text="${inst.instituteId}">ID</td>
+                <td th:text="${inst.name}">NAME</td>
+                <td th:text="${inst.phone}">PHONE</td>
+                <td th:text="${inst.email}">EMAIL</td>                
+                <td th:text="${inst.city}">CITY</td>                                
+                <td><a href="">Edit</a> | <a href="">Delete</a></td>                                
+            </tr> 
+        </table>
+        </div>
+    </body>
+</html>
