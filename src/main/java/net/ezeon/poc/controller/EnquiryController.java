@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -81,6 +82,11 @@ public class EnquiryController {
     @ResponseBody
     public String getInstIds() {
         return enquiryRepository.findAllIds();
+    }
+    @PostMapping("/save-followup")    
+    public String saveFollowup(@RequestParam Long enquiryId, @RequestParam String followup) {
+        commonService.saveFollowup(enquiryId, followup);
+        return "redirect:/enq-list";
     }
 
 }
