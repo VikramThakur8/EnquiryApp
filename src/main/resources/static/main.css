@@ -66,47 +66,6 @@ button{
     padding-bottom: 10px;
     padding-top: 10px;
 }
-
-/* Add Folloup Popup Form CSS */
-.form-popup {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  right: 15px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-}
-
-.form-container {
-  max-width: 300px;
-  padding: 10px;
-  background-color: #c7c6c2;
-}
-.form-container input[type=text], .form-container input[type=password] {
-  width: 100%; 
-}
-
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-.form-container .btn {
-  color: white;  
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.8;
-}
-.form-container .cancel {
-  background-color: red;
-}
-.form-container .btn:hover, .open-button:hover {
-  opacity: 1;
-}
-.btnX{
-    width: 30px; float: right; background-color: #009999;
-}
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}

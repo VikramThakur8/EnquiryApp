@@ -11,7 +11,6 @@ import net.ezeon.poc.domain.Contact;
 import net.ezeon.poc.domain.Enquiry;
 import net.ezeon.poc.domain.EnquiryCourse;
 import net.ezeon.poc.domain.EnquirySource;
-import net.ezeon.poc.domain.Followup;
 import net.ezeon.poc.domain.Institute;
 import net.ezeon.poc.dto.EnquiryCommand;
 import net.ezeon.poc.repo.AddressRepository;
@@ -86,12 +85,4 @@ public class CommonService {
         
     }   
     
-    @Transactional
-    public void saveFollowup(Long enquiryId, String detail){
-        Followup fo = new Followup();
-        fo.setDetail(detail);
-        fo.setEnquiry(enquiryRepository.getOne(enquiryId)); //FK
-        fo.setDoe(new Date());
-        followupRepository.save(fo);
-    }
 }
