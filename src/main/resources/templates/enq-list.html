@@ -12,9 +12,21 @@
                 $("#id_instId").change(function () {
                     var instId = $("#id_instId").val();
                     //console.log(instId);
-                    window.location = 'enq-list?instId='+instId;
+                    window.location = 'enq-list?instId=' + instId;
                 });
             });
+            function openForm(enquiryId) {
+                $("#id_enquiryId").val(enquiryId);
+                $('#followupForm').css("display", "block");
+                $('#followupForm').css('left', event.pageX);
+                $('#followupForm').css('top', event.pageY);
+                $('#followupForm').css('display', 'inline');
+                $("#followupForm").css("position", "absolute");
+            }
+
+            function closeForm() {
+                $('#followupForm').css("display", "none");
+            }
         </script>
     </head>
     <body>
@@ -51,11 +63,23 @@
                     <td th:text="${dto.phone}">PHONE</td>
                     <td th:text="${dto.courses}">COURSES</td>                
                     <td th:text="${dto.fees}">FEES</td>                                
-                    <td th:text="${dto.followUpCount}">F/U</td>                                
+                    <td>
+                        <span th:text="${dto.followUpCount}"></span>
+                        <a href="javascript:void(0)" th:attr="onclick=|openForm(${dto.enquiryId})|">Add F/U</a>
+                    </td>                                
                     <td>Edit | Delete</td>                                
                 </tr>    
 
             </table>
+        </div>
+        <div class="form-popup" id="followupForm">
+            <form  th:action="@{/save-followup}" method="post" class="form-container">
+                <input type="hidden" name="enquiryId" id="id_enquiryId"/>
+                <button type="button" class="btnX" onclick="closeForm()">X</button>
+                <h3>Add Followup</h3>
+                <textarea name="followup" width="100%" style="width: 100%" rows="5" ></textarea>
+                <button type="submit" class="btn">Save</button>
+            </form>
         </div>
     </body>
 </html>

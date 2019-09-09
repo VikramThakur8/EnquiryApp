@@ -9,6 +9,7 @@ import net.ezeon.poc.dto.EnquiryCommand;
 import net.ezeon.poc.repo.CourseRepository;
 import net.ezeon.poc.repo.EnquiryRepository;
 import net.ezeon.poc.repo.EnquirySourceRepository;
+import net.ezeon.poc.repo.FollowupRepository;
 import net.ezeon.poc.repo.InstituteRepository;
 import net.ezeon.poc.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,11 +50,10 @@ public class EnquiryController {
         return "/index"; //index.html page
     }
 
-    @GetMapping("/save-enquiry")
-    @ResponseBody
+    @GetMapping("/save-enquiry")    
     public String save(@ModelAttribute EnquiryCommand cmd) {
         commonService.saveEnquiry(cmd);
-        return "Enquiry Saved Successfully"; //TODO : go to enquiry list
+        return "redirect:/enq-list";
     }
 
     @GetMapping("/get-courses")
@@ -75,6 +76,12 @@ public class EnquiryController {
     public String enquiryList(@RequestParam(required = false) Long instId, Model m) {
         m.addAttribute("enquiryList", enquiryRepository.getEnquiryDTOList(instId));
         return "/enq-list"; //html
+    }
+
+    @PostMapping("/save-followup")    
+    public String saveFollowup(@RequestParam Long enquiryId, @RequestParam String followup) {
+        commonService.saveFollowup(enquiryId, followup);
+        return "redirect:/enq-list";
     }
 
     @GetMapping("/test-get-inst-ids")
