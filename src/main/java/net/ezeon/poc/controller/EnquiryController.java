@@ -43,8 +43,7 @@ public class EnquiryController {
     EnquiryRepository enquiryRepository;
 
     @GetMapping("/")
-    public String index(Model m) {
-        //TODO : Bind Command
+    public String index(Model m) {       
         m.addAttribute("cmd", new EnquiryCommand());
         return "/index"; //index.html page
     }
