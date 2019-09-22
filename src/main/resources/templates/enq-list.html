@@ -59,7 +59,9 @@
                 <tr th:each="dto,itr : ${enquiryList}">
                     <td th:text="${itr.count}">SR</td>
                     <td th:text="${#dates.format(dto.doe, 'dd-MMM-yyyy')}">DOE</td>
-                    <td th:text="${dto.name}">NAME</td>
+                    <td >
+                        <a th:href="@{'/enquiry-detail/'+${dto.enquiryId}}" th:text="${dto.name}"></a>
+                    </td>
                     <td th:text="${dto.phone}">PHONE</td>
                     <td th:text="${dto.courses}">COURSES</td>                
                     <td th:text="${dto.fees}">FEES</td>                                

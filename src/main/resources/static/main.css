@@ -66,6 +66,9 @@ button{
     padding-bottom: 10px;
     padding-top: 10px;
 }
+.txt{
+    color: #4b4b6c;      
+}
 /* Add Folloup Popup Form CSS */
 .form-popup {
   display: none;

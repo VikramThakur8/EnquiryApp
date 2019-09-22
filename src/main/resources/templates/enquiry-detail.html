@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="${dataMap.name +'- Enquiry Detail'}"></title>
+        <meta charset="UTF-8">        
+        <link th:href="@{/main.css}" type="text/css" rel="stylesheet" />
+        <script th:src="@{/jquery-3.4.1.min.js}"></script>     
+        <script>            
+            function openForm(enquiryId) {
+                $("#id_enquiryId").val(enquiryId);
+                $('#followupForm').css("display", "block");
+                $('#followupForm').css('left', event.pageX);
+                $('#followupForm').css('top', event.pageY);
+                $('#followupForm').css('display', 'inline');
+                $("#followupForm").css("position", "absolute");
+            }
+
+            function closeForm() {
+                $('#followupForm').css("display", "none");
+            }
+        </script>
+    </head>
+    <body>
+
+        <div th:insert="menu"></div>
+
+        <div class="main">
+            <div th:insert="header"></div>
+
+            <table border="1" width="90%" align="center" cellpadding="5">     
+                <tr>
+                    <td class="fheading" colspan="3">                             
+                        <div style="float: left;" th:text="${dataMap.name}"></div>                         
+                        <div style="float: right; font-size: 16px;" th:text="${#dates.format(dataMap.doe, 'dd-MMM-yyyy')}"></div>                                                
+                    </td>
+                </tr>
+                <tr>                       
+                    <td>  
+                        Courses: <span class="txt" th:text="${dataMap.courses}"></span>
+                    </td>
+                    <td>
+                        Fees: <span class="txt" th:text="${dataMap.fees}"></span>
+                    </td>                       
+                    <td>
+                        Source of Enquiry: <span class="txt" th:text="${dataMap.sourceOfEnquiry}"></span>
+                    </td>                       
+                </tr>
+                <tr>                       
+                    <td colspan="3" height="40px">  
+                        Remark: <span class="txt" th:text="${dataMap.remark}"></span>
+                    </td>
+
+                </tr>
+                <tr>                       
+                    <td>  
+                        Phone: <span class="txt"  th:text="${dataMap.phone}"></span>
+                    </td>
+                    <td colspan="2">
+                        Email: <span class="txt" th:text="${dataMap.email}"></span>
+                    </td>                      
+                </tr>
+                <tr>       
+                    <td>
+                        City: <span class="txt" th:text="${dataMap.city}"></span>
+                    </td> 
+                    <td colspan="2">  
+                        Country: <span class="txt"  th:text="${dataMap.country}"></span>
+                    </td>
+
+                </tr>
+                <tr>      
+                    <td >
+                        Address: <span class="txt" th:text="${dataMap.detail}"></span>
+                    </td> 
+                    <td colspan="2">
+                        Zip Code <span class="txt" th:text="${dataMap.zip}"></span>
+                    </td>   
+                </tr>
+            </table>
+            <br/>
+            <table border="1" width="90%" align="center" cellpadding="5">     
+                <tr>
+                    <td class="fheading" colspan="3">                             
+                        Followup   :  <a  style="font-size: 13px" href="javascript:void(0)" th:attr="onclick=|openForm(${dataMap.enquiryId})|"><button>Add F/U</button></a> <div style="float: right" th:text="${#lists.size(followupList)}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>SR</th>
+                    <th>Date </th>
+                    <th align="left">Note</th>                   
+                </tr>
+                <tr th:each="f,itr: ${followupList}">
+                    <td width="5%" th:text="${itr.count}">                             
+                        SR 
+                    </td>
+                    <td width="15%" th:text="${#dates.format(f.doe, 'dd-MMM-yyyy')}">                             
+                        Date 
+                    </td>
+                    <td th:text="${f.detail}">                             
+                        Note
+                    </td>
+                   
+                </tr>
+               
+               
+            </table>
+            <br/>      
+            <div class="form-popup" id="followupForm">
+            <form  th:action="@{/save-followup?go=eview}" method="post" class="form-container">
+                <input type="hidden" name="enquiryId" id="id_enquiryId"/>
+                <button type="button" class="btnX" onclick="closeForm()">X</button>
+                <h3>Add Followup</h3>
+                <textarea name="followup" width="100%" style="width: 100%" rows="5" ></textarea>
+                <button type="submit" class="btn">Save</button>
+            </form>
+        </div>
+        </div>
+    </body>
+</html>

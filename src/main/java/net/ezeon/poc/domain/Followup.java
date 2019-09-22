@@ -35,15 +35,26 @@ public class Followup implements Serializable {
     @Basic(optional = false)
     @Column(name = "followupId")
     private Long followupId;
+    
     @Column(name = "doe")
     @Temporal(TemporalType.TIMESTAMP)
     private Date doe;
+    
     @Column(name = "detail")
     private String detail;
+   
     @JoinColumn(name = "enquiryId", referencedColumnName = "enquiryId")
     @ManyToOne
     private Enquiry enquiry;
 
+    public Followup(Long followupId, Date doe, String detail) {
+        this.followupId = followupId;
+        this.doe = doe;
+        this.detail = detail;
+    }
+
+    
+    
     public Followup() {
     }
 
