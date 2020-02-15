@@ -92,6 +92,16 @@ public class CommonService {
         fo.setEnquiry(enquiryRepository.getOne(enquiryId)); //FK
         fo.setDoe(new Date());
         followupRepository.save(fo);
-    }
+    }    
+    
+    @Transactional
+    public void deleteEnquiry(Long enquiryId){
+        Enquiry enquiry = enquiryRepository.findById(enquiryId).get();
+        Contact contact = enquiry.getContact();
+        //delete contact
+        contactRepository.delete(contact);
+        //delete enquiry
+        enquiryRepository.delete(enquiry);        
+    }    
     
 }

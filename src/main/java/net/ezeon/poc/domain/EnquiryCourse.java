@@ -35,6 +35,7 @@ public class EnquiryCourse implements Serializable {
     @JoinColumn(name = "courseId", referencedColumnName = "courseId")
     @ManyToOne
     private Course course;
+    
     @JoinColumn(name = "enquiryId", referencedColumnName = "enquiryId")
     @ManyToOne
     private Enquiry enquiry;

@@ -69,7 +69,7 @@
                         <span th:text="${dto.followUpCount}"></span>
                         <a href="javascript:void(0)" th:attr="onclick=|openForm(${dto.enquiryId})|">Add F/U</a>
                     </td>                                
-                    <td>Edit | Delete</td>                                
+                    <td>Edit |  <a th:href="@{'/enquiry-delete/'+${dto.enquiryId}}">Delete</a></td>                                
                 </tr>    
 
             </table>

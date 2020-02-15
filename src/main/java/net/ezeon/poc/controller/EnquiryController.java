@@ -55,11 +55,10 @@ public class EnquiryController {
         return "/index"; //index.html page
     }
 
-    @GetMapping("/save-enquiry")
-    @ResponseBody
+    @GetMapping("/save-enquiry")  
     public String save(@ModelAttribute EnquiryCommand cmd) {
         commonService.saveEnquiry(cmd);
-        return "Enquiry Saved Successfully"; //TODO : go to enquiry list
+        return "redirect:/enq-list";
     }
 
     @GetMapping("/get-courses")
@@ -93,23 +92,29 @@ public class EnquiryController {
     @PostMapping("/save-followup")
     public String saveFollowup(@RequestParam Long enquiryId, @RequestParam String followup, @RequestParam(required = false) String go) {
         commonService.saveFollowup(enquiryId, followup);
-        if (go!=null && go.equals("eview")) {
-            return "redirect:/enquiry-detail/"+enquiryId;
-        }else{
+        if (go != null && go.equals("eview")) {
+            return "redirect:/enquiry-detail/" + enquiryId;
+        } else {
             return "redirect:/enq-list";
         }
     }
-    
+
     @GetMapping("/enquiry-detail/{id}")
-    public String enquiryDetail(@PathVariable Long id, Model m){
+    public String enquiryDetail(@PathVariable Long id, Model m) {
         m.addAttribute("dataMap", enquiryRepository.getEnquiryDetailMap(id));
         m.addAttribute("followupList", followupRepository.getFollowupsByEnquiryId(id));
         return "/enquiry-detail"; //html
     }
     
+    @GetMapping("/enquiry-delete/{id}")
+    public String deleteEnquiry(@PathVariable Long id) {
+        commonService.deleteEnquiry(id);
+        return "redirect:/enq-list";
+    }
+
     @GetMapping("/test-enquiry-detail/{id}")
     @ResponseBody
-    public Map<String,Object> getEnqMap(@PathVariable Long id){
+    public Map<String, Object> getEnqMap(@PathVariable Long id) {
         return enquiryRepository.getEnquiryDetailMap(id);
     }
 }
